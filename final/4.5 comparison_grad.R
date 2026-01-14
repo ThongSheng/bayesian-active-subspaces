@@ -158,17 +158,22 @@ ggplot(data = results_df %>%
                                                'lognormal_inverse_wishart_grad'),
                               label = c('Monte Carlo', 'Conjugate prior', 'Dirichlet-Wishart',
                                         'Log-normal Inverse-Wishart'))) %>%
+         left_join(data.frame(func = c('determ_full', 'determ_2d', 'GP_full',
+                                               'GP_2d'),
+                              Function = factor(c('Full deterministic', '2d deterministic', 'Full GP',
+                                        '2d GP'), levels = c('Full deterministic', '2d deterministic', 'Full GP',
+                                                             '2d GP')))) %>%
          rename(d = p)) +
   geom_boxplot(aes(x = factor(n), y = cos_sim_C_Sigma, color = label)) +
   geom_hline(data = line_data, aes(yintercept = yintercept), color = "red", linetype = "dashed") +
-  facet_grid(d~func, labeller = label_both) +
+  facet_grid(d~Function, labeller = label_both) +
   labs(x = 'Sample size (n)', 
-       y = 'Cosine Similarity',
-       title = 'Cosine Similarity of Predicted Sigma vs. True C', 
+       y = 'Cosine similarity of first eigenvectors',
        color = 'Method') +
   theme_bw() + 
   theme(text = element_text(family = 'Arial'))
 ggsave("cosine_grad.png", width = 10, height = 5, units = "in", dpi = 300)
+
 
 # Plot 4: Posterior mean of predicted value RMSE from truth
 ggplot(data = results_df) +
