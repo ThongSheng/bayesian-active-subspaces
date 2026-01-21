@@ -130,7 +130,9 @@ stan_results_df <- do.call(rbind, stan_results_list)
 # --- Combine both STAN and NONSTAN ---
 results_df <- rbind(nonstan_results_df, stan_results_df)
 
-# Define colors
+# Reorder columns and define colors
+results_df$Function <- factor(results_df$Function, levels = c("Full deterministic", "2d deterministic", "Full GP", "2d GP"))
+results_df$Method <- factor(results_df$Method, levels = c("BASS", "GP Conditional", "GP MLE", "Dirichlet-Wishart", "GP Reduce", "Log-normal Inverse-Wishart"))
 method_colors <- c(
   "BASS"                       = "#F8766D",
   "GP Conditional"             = "#B79F00",
@@ -147,8 +149,8 @@ method_colors <- c(
   labs(x = 'Sample size (n)', 
        y = 'Log of computation time (minutes)') +
   theme_bw() +
-  theme(text = element_text(family = 'Arial'))) +
-  scale_color_manual(values = method_colors)
+  theme(text = element_text(family = 'Arial')) +
+  scale_color_manual(values = method_colors))
 ggsave("Desktop/log_time.png", plot = log_time, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 2: Frobenius Norm between normalized C and C_est
@@ -156,10 +158,10 @@ ggsave("Desktop/log_time.png", plot = log_time, width = 10, height = 5, units = 
   geom_boxplot(aes(x = factor(n), y = frobenius, color = Method)) +
   facet_grid(d ~ Function, labeller = label_both) +
   labs(x = 'Sample size (n)', 
-       y = 'Frobenius Norm') +
+       y = 'Frobenius norm') +
   theme_bw() +
-  theme(text = element_text(family = 'Arial'))) +
-  scale_color_manual(values = method_colors)
+  theme(text = element_text(family = 'Arial')) +
+  scale_color_manual(values = method_colors))
 ggsave("Desktop/frob.png", plot = frob, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 3: Cosine Similarity between first eigenvectors
@@ -173,10 +175,10 @@ line_data <- data.frame(
   geom_hline(data = line_data, aes(yintercept = yintercept), color = "red", linetype = "dashed") +
   facet_grid(d ~ Function, labeller = label_both) +
   labs(x = 'Sample size (n)', 
-       y = 'Cosine Similarity of First Eigenvectors') +
+       y = 'Cosine similarity of first eigenvectors') +
   theme_bw() +
-  theme(text = element_text(family = 'Arial'))) +
-  scale_color_manual(values = method_colors)
+  theme(text = element_text(family = 'Arial')) +
+  scale_color_manual(values = method_colors))
 ggsave("Desktop/cosine.png", plot = cosine, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 4: Differences in first eigenvalue
@@ -184,10 +186,10 @@ ggsave("Desktop/cosine.png", plot = cosine, width = 10, height = 5, units = "in"
   geom_boxplot(aes(x = factor(n), y = diff_eigenvalue, color = Method)) +
   facet_grid(d ~ Function, labeller = label_both) +
   labs(x = 'Sample size (n)', 
-       y = 'Abs Difference in First Eigenvalues') +
+       y = 'Abs difference in first eigenvalues') +
   theme_bw() +
-  theme(text = element_text(family = 'Arial'))) +
-  scale_color_manual(values = method_colors)
+  theme(text = element_text(family = 'Arial')) +
+  scale_color_manual(values = method_colors))
 ggsave("Desktop/first_eigen.png", plot = first_eigen, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 5: Effective sample size
