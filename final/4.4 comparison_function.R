@@ -77,8 +77,7 @@ file_ids <- as.integer(gsub(".RData$", "", gsub(".*_", "", files)))
 
 stan_results_list <- list()
 
-#for (i in 1:length(files)) {
-for (i in 3001:3240) {
+for (i in 1:length(files)) {
   file_id <- file_ids[i]
   
   # Load the file
@@ -86,7 +85,7 @@ for (i in 3001:3240) {
   
   # Normalized C matrices
   C_norm <- C/sum(diag(C))
-  pred_C <- apply(extract_vals$Sigma, c(2, 3), mean)
+  pred_C <- matrix(colMeans(extract_vals[, , 1:dim(extract_vals)[3] - 1], dims=2), ncol = grid$p[file_id])
   if(sum(diag(pred_C)) == 0) {
     C_est_norm <- NA
   } else {

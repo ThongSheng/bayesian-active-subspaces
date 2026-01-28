@@ -133,6 +133,7 @@ if (grid$func[array_id] == 'determ_full') {
     C[upper.tri(C) | lower.tri(C)] <- 1/p
   }
   y <- apply(x_obs, 1, f) + rnorm(n)
+  y <- y - mean(y)
   
 } else if (grid$func[array_id] == 'determ_2d') {
   f <- function(x) {sum(x[1:2]^2)/sqrt(p)}
@@ -141,7 +142,8 @@ if (grid$func[array_id] == 'determ_full') {
     C[1,1] <- C[2,2] <- 4/(3*p)
     C[1,2] <- C[2,1] <- 1/p
   }
-  y <- apply(x_obs, 1, f) + rnorm(n) 
+  y <- apply(x_obs, 1, f) + rnorm(n)
+  y <- y - mean(y)
   
 } else if (grid$func[array_id] == 'GP_full') {
   W_random <- eigen(crossprod(matrix(rnorm(p * p), nrow = p, ncol = p)))$vectors
@@ -233,7 +235,7 @@ b_time <- Sys.time()
 time_used <- b_time - a_time
 units(time_used) <- 'mins'
 
-extract_vals <- extract(out_model)
+extract_vals <- extract(out_model, inc_warmup=F, permuted=F)
 summary_vals <- summary(out_model)
 
 # Save results
