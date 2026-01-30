@@ -46,6 +46,7 @@ if (grid$func[array_id] == 'determ_full') {
     C[upper.tri(C) | lower.tri(C)] <- 1/p
   }
   y <- apply(x_obs, 1, f) + rnorm(n, sd=sqrt(.00001))
+  y <- y - mean(y)
   
 } else if (grid$func[array_id] == 'determ_2d') {
   f <- function(x) {sum(x[1:2]^2)/sqrt(p)}
@@ -55,6 +56,7 @@ if (grid$func[array_id] == 'determ_full') {
     C[1,2] <- C[2,1] <- 1/p
   }
   y <- apply(x_obs, 1, f) + rnorm(n, sd=sqrt(.00001))
+  y <- y - mean(y)
   
 } else if (grid$func[array_id] == 'GP_full') {
   W_random <- eigen(crossprod(matrix(rnorm(p * p), nrow = p, ncol = p)))$vectors
