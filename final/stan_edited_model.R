@@ -221,7 +221,7 @@ transformed parameters {
     }
   }
   
-  Sigma = W * diag_matrix(1/(2*(exp(log_theta_par))^2)) * W';
+  Sigma = W * diag_matrix(1/((exp(log_theta_par))^2)) * W';
 }
 model {
   for ( i in 1:k_reduce) {
