@@ -158,7 +158,7 @@ time_used <- b_time - a_time
 units(time_used) <- 'mins'
 
 # Save results
-output_dir <- '/scratch/negishi/angt/nonstan_results/'
+output_dir <- 'nonstan_results/'
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
