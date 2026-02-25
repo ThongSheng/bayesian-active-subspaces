@@ -1,12 +1,9 @@
-
-library(ncdf4)
-#install.packages('ncdf4')
 source(file.path(Sys.getenv("MODULESHOME"), "init/R"))
 module("load", "netcdf-c")
 #install.packages('ncdf4')
 library(ncdf4)
 
-scratch_dir <- '/scratch/negishi/anyarger/'
+scratch_dir <- ''
 
 extension <- 'CESM/d651076/ppe/cam_ppe/rerun_PPE_250/PD/PD_timeseries/'
 extension2 <- 'CESM_FSNT/d651076/ppe/cam_ppe/rerun_PPE_250/PD/PD_timeseries/'
@@ -68,11 +65,11 @@ summary(sapply(RESTOM_vals, mean))
 RESTOM_vector <- sapply(RESTOM_vals, mean)
 
 save(RESTOM_vals,RESTOM_vector, sub_folders, # lat, long, time, area_weights_all,
-     file = '~/active-subspace-methods/CESM_data.RData')
+     file = 'data/CESM_data.RData')
 
-pars_folder <- '/scratch/negishi/anyarger/CESM_pars/'
+pars_folder <- 'CESM_pars/'
 
-list.files('/scratch/negishi/anyarger/CESM_pars/')
+list.files('CESM_pars/')
 par_file <- nc_open(paste0(pars_folder, 'parameter_262_w_control_fix.nc'), write = F)
 
 variables <- list()
@@ -85,7 +82,7 @@ nc_close(par_file)
 
 
 save(variables_df, 
-     file = '~/active-subspace-methods/CESM_vars.RData')
+     file = 'data/CESM_vars.RData')
 
 
 
