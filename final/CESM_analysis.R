@@ -1,5 +1,5 @@
-load('~/active-subspace-methods/CESM_data.RData')
-load('~/active-subspace-methods/CESM_vars.RData')
+load('data/CESM_data.RData')
+load('data/CESM_vars.RData')
 
 library(mvtnorm)
 library(BASS)
@@ -210,7 +210,7 @@ if (F) {
   save(diagonal_add, pred_C_wycoff, pred_C_wycoff2, mod_bass, pred_C_bass,
        pred_C_likelihood, file = 'CESM_nonstan_final.RData')
 } else {
-  load(file = '~/active-subspace-methods/CESM_nonstan_final.RData')
+  load(file = 'data/CESM_nonstan_final.RData')
 }
 library(fields)
 
@@ -224,7 +224,7 @@ library(rstan)
 
 prior_configs <- list(
   "dirichlet_wishart" = list(
-    stan_model_name = "~/active-subspace-methods/final/dirichlet_wishart_with_var_model.RData",
+    stan_model_name = "models/dirichlet_wishart_with_var_model.RData",
     stan_model_string_var = "sim.ss_dirichlet_wishart", 
     default_params = list(
       prior_gamma_a = 7,
@@ -267,7 +267,7 @@ dist_tensor_mat_reduced <- dist_tensor_mat[upper.tri(matrix(nrow =n, ncol = n), 
 # --- STAN Model Loading ---
 stan_model_object <- NULL
 stan_model_path <- current_prior_config$stan_model_name
-stan_code_file_master <- "/home/anyarger/active-subspace-methods/final/stan_edited_model_with_var.R"
+stan_code_file_master <- "stan_edited_model_with_var.R"
 
 # Ensure the 'stan' directory exists
 if (!dir.exists("stan")) {
@@ -482,7 +482,7 @@ ggplot() +
        color = 'Estimate') +
   theme_bw() +
   theme(text = element_text(family = 'Arial'))
-ggsave('CESM_prop_var_explained.png', height = 4*.8, width = 6.8*.8)
+ggsave('images/CESM_prop_var_explained.png', height = 4*.8, width = 6.8*.8)
 
 
 vectors2 <- t(sapply(1:(dim(Sampled_Sigmas)[1]), function(x) {
@@ -508,7 +508,7 @@ ggplot(data = data.frame(AS) %>% tidyr::pivot_longer(cols = colnames(x_obs)) %>%
                      axis.text.x = element_text(angle = 90, hjust = 1, vjust = 1)) + 
   labs(x = 'Input parameter',
        y = 'Posterior samples of activity scores\nbased on two dimensions')
-ggsave('CESM_activity_score.png', height = 4*1.4, width = 6.8*1.4)
+ggsave('images/CESM_activity_score.png', height = 4*1.4, width = 6.8*1.4)
 
 
 
@@ -575,7 +575,7 @@ ggplot() +
   guides(label = guide_legend(order = 0),
          linetype = guide_legend(order = 1),
          color = guide_colorbar(order = 10))
-ggsave('CESM_RESTOM_biplot.png', height = 4*.9, width = 6.8*.9)
+ggsave('images/CESM_RESTOM_biplot.png', height = 4*.9, width = 6.8*.9)
 
 extract_vals_trace <- rstan::extract(out_model, permuted = F)
 Sigma_samples <- extract_vals_trace[,,1:(45)^2]
@@ -594,7 +594,7 @@ ggplot(data = Sigma_df %>%filter(chain == 1, Row %in% 1:10,
   labs(x = 'MCMC iteration', y = 'Estimated entry of C') +
   theme_bw() +
   theme(text = element_text(family = 'Arial'))
-ggsave('CESM_sampling.png', height = 5.3*1.2, width = 7*1.2)
+ggsave('images/CESM_sampling.png', height = 5.3*1.2, width = 7*1.2)
 
 
 other_df <- data.frame(value = as.vector(extract_vals_trace[,,((45)^2 + 1):((45)^2 + 2)]), 
@@ -653,7 +653,7 @@ ggplot(data = C_df  %>% filter(type !='Wycoff') %>%
                      axis.ticks.y = element_line(linewidth = .2),
                      axis.text.y = element_text(size = 4)) + 
   labs(fill = 'Normalized\nC estimate', x = '', y = 'Column')
-ggsave('CESM_C_compare.png', height = 4.5 * 1.3, width = 5.7 * 1.3)
+ggsave('images/CESM_C_compare.png', height = 4.5 * 1.3, width = 5.7 * 1.3)
 
 
 ggplot(data = C_df  %>% filter(type !='Wycoff') %>%
@@ -667,6 +667,6 @@ ggplot(data = C_df  %>% filter(type !='Wycoff') %>%
                      axis.text = element_blank(), 
                      axis.title = element_blank()) + 
   labs(fill = 'Normalized\nC estimate', x = '', y = 'Column')
-ggsave('CESM_C_compare.png', height = 4 * 1.3, width = 4.5 * 1.3)
+ggsave('images/CESM_C_compare.png', height = 4 * 1.3, width = 4.5 * 1.3)
 
 
