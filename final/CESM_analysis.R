@@ -224,7 +224,7 @@ library(rstan)
 
 prior_configs <- list(
   "dirichlet_wishart" = list(
-    stan_model_name = "models/dirichlet_wishart_with_var_model.RData",
+    stan_model_name = "final/dirichlet_wishart_with_var_model.RData",
     stan_model_string_var = "sim.ss_dirichlet_wishart", 
     default_params = list(
       prior_gamma_a = 7,
