@@ -253,7 +253,7 @@ p2 <- ggplot(melted_pred_C, aes(x = Column, y = Row, fill = Value)) +
   coord_equal()
 
 (heat <- p1 + p2)
-ggsave("Desktop/heatmaps.png", plot = heat, width = 10, height = 3.5, units = "in", dpi = 300)
+ggsave("images/heatmaps.png", plot = heat, width = 10, height = 3.5, units = "in", dpi = 300)
 
 # Posterior Distribution
 plot_data <- melt(extract_vals) %>%
@@ -268,7 +268,7 @@ plot_data <- melt(extract_vals) %>%
   theme_minimal() +
   theme(text = element_text(family = "Arial")))
 
-ggsave("Desktop/posterior.png", plot = posterior, width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/posterior.png", plot = posterior, width = 10, height = 5, units = "in", dpi = 300)
 
 # Trace plots
 p1 <- ggplot(data.frame(Value = extract_vals[,1,1]), aes(x = 1:1000, y = Value)) +
@@ -297,7 +297,7 @@ p4 <- ggplot(data.frame(Value = extract_vals[,1,4]), aes(x = 1:1000, y = Value))
   theme(text = element_text(family = 'Arial'))
 
 (trace <- p1 + p2 + p3 + p4)
-ggsave("Desktop/trace.png", plot = trace, width = 10, height = 3.5, units = "in", dpi = 300)
+ggsave("images/trace.png", plot = trace, width = 10, height = 3.5, units = "in", dpi = 300)
 
 # Cosine similarity
 C_eigen <- eigen(C)$vectors[,1]
@@ -330,4 +330,4 @@ p4 <- ggplot(data = data.frame(x_obs, y), aes(x = x_obs[,4], y = y)) +
   theme(text = element_text(family = 'Arial'))
 
 (scatter <- p1 + p2 + p3 + p4 + plot_layout(ncol=4))
-ggsave("Desktop/marg_scat.png", plot = scatter, width = 10, height = 3, units = "in", dpi = 300)
+ggsave("images/marg_scat.png", plot = scatter, width = 10, height = 3, units = "in", dpi = 300)
