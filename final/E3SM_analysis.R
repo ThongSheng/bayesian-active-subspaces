@@ -1,4 +1,4 @@
-load('~/active-subspace-methods/E3SM_RESTOM.RData')
+load('data/E3SM_RESTOM.RData')
 library(mvtnorm)
 library(BASS)
 library(concordance)
@@ -180,7 +180,7 @@ dist_tensor_mat <- matrix(as.vector(dist_tensor), nrow = n^2, ncol = p)
 dist_tensor_mat_reduced <- dist_tensor_mat[upper.tri(matrix(nrow =n, ncol = n), diag = T), ]
 # --- STAN Model Loading ---
 stan_model_path <- current_prior_config$stan_model_name
-stan_code_file_master <- "/home/anyarger/active-subspace-methods/stan/stan_edited_model_with_var.R"
+stan_code_file_master <- "stan/stan_edited_model_with_var.R"
 
 # Ensure the 'stan' directory exists
 if (!dir.exists("stan")) {
@@ -336,7 +336,7 @@ ggplot(data = Sigma_df %>%filter(chain == 1), aes(x = order, y = value)) +
   labs(x = 'MCMC iteration', y = 'Sampled value of the entry of C') +
   theme_bw() +
   theme(text = element_text(family = 'Arial'))
-ggsave('E3SM_sampling_C.png', height = 5.3*.8, width = 7*.8)
+ggsave('images/E3SM_sampling_C.png', height = 5.3*.8, width = 7*.8)
 
 other_df <- data.frame(value = as.vector(extract_vals_trace[,,26:27]), 
                        Chain = rep(1:4, each = dim(Sigma_samples)[1]),
@@ -350,7 +350,7 @@ ggplot(data = other_df , aes(x = order, y = value)) +
   labs(x = 'MCMC iteration', y = 'Sampled value') +
   theme_bw() +
   theme(text = element_text(family = 'Arial'))
-ggsave('E3SM_sampling_sigma2_tau2.png', height = 5.3 *.8, width = 7*.8)
+ggsave('images/E3SM_sampling_sigma2_tau2.png', height = 5.3 *.8, width = 7*.8)
 
 
 vectors <- t(sapply(1:(dim(extract_vals$Sigma)[1]), function(x) {
@@ -396,7 +396,7 @@ ggplot(data = data.frame(AS) %>% tidyr::pivot_longer(cols = colnames(e3sm_parame
   theme_bw() + theme(text = element_text(family = 'Arial')) + 
   labs(x = 'Input parameter',
        y = 'Posterior samples of activity scores\nbased on two dimensions')
-ggsave('E3SM_activity_score.png', height = 4*.8, width = 6.8*.8)
+ggsave('images/E3SM_activity_score.png', height = 4*.8, width = 6.8*.8)
 
 
 
@@ -428,7 +428,7 @@ ggplot() +
        color = 'Estimate') +
   theme_bw() +
   theme(text = element_text(family = 'Arial'))
-ggsave('E3SM_prop_var_explained.png', height = 4*.8, width = 6.8*.8)
+ggsave('images/E3SM_prop_var_explained.png', height = 4*.8, width = 6.8*.8)
 
 df <- left_join(data.frame(pivot_longer(as.data.frame(vectors) * sqrt(values[,1]), cols = 1:5, names_to = 'v1'), index = 1:(20000)), 
                 data.frame(pivot_longer(as.data.frame(vectors2)* sqrt(values[,2]), cols = 1:5, names_to = 'v1'),index = 1:(20000)),
@@ -620,4 +620,4 @@ ggplot(data = C_df  %>% filter(type !='Wycoff') %>%
                      axis.text.y = element_text(size = 6), 
                      axis.title = element_blank()) + 
   labs(fill = 'Normalized\nC estimate', x = '', y = 'Column')
-ggsave('E3SM_C_compare_all.png', height = 3 * 1.2, width = 4.5 * 1.2)
+ggsave('images/E3SM_C_compare_all.png', height = 3 * 1.2, width = 4.5 * 1.2)
