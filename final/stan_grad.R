@@ -289,7 +289,7 @@ extract_vals <- rstan::extract(out_model)
 summary_vals <- summary(out_model)
 
 # Save results
-output_dir <- '/scratch/negishi/angt/stan_results/grad/'
+output_dir <- 'stan_results/grad/'
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
