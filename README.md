@@ -1,1 +1,1 @@
-# Bayesian estimation of active subspaces with informative prior information
+# Bayesian estimation of active subspaces with informative priors
