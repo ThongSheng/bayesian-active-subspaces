@@ -451,24 +451,24 @@ df_random <- cbind(data.frame(pivot_longer(as.data.frame(vectors[random_indexes,
                                            cols = 1:5, names_to = 'v1', values_to = 'value2')),
                    variable = factor(colnames(x_obs), levels = colnames(x_obs)))
 
-ggplot() + 
-  geom_point(data = data.frame(projected_points, E3SM_RESTOM), 
+geom_point(data = data.frame(projected_points, E3SM_RESTOM), 
              aes(x = X1, y = X2, color =E3SM_RESTOM)) +
   scale_color_viridis_c() +
-  coord_equal() + 
-  geom_segment(data = df_random %>% filter(variable == 'clubb_gamma_coef'),
-               aes(x = value1 * .7, y = value2 *.7),
-               arrow = grid::arrow(ends = 'first', length = unit(.2, 'cm')),
-               xend = 0, yend = 0, size = .2,
-               alpha = .2) + 
+  coord_equal(xlim = c(-1, 1.02)) + 
+  #geom_point(data = df, aes(x = value.x/10, y = value.y/10, fill = v1), size = .2)+
+  # geom_segment(data = df_random %>% filter(variable == 'clubb_gamma_coef'),
+  #              aes(x = value1 * .7, y = value2 *.7),
+  #              arrow = grid::arrow(ends = 'first', length = unit(.2, 'cm')),
+  #              xend = 0, yend = 0, size = .2,
+  #              alpha = .2) + 
   geom_label(data = data.frame(pm_vectors[,1:2]  %*% diag(sqrt(eigen(post_mean)$values[1:2]),ncol = 2), 
                                variable = factor(colnames(x_obs), levels = colnames(x_obs))), 
-             aes(x = X1*.7, y = ifelse(variable == 'zmconv_dmpdz', X2*.7+ .1, 
-                                       X2*.7), label = variable), nudge_x = .2, size = 3, alpha = .2,
+             aes(x = X1, y = ifelse(variable == 'zmconv_dmpdz', X2+ .1, 
+                                       X2), label = variable), nudge_x = -.3, size = 3, alpha = .2,
              family = 'Arial') +
   geom_segment(data = data.frame(pm_vectors[,1:2]  %*% diag(sqrt(eigen(post_mean)$values[1:2]),ncol = 2), 
                                  variable = factor(colnames(x_obs), levels = colnames(x_obs))), 
-               aes(x = X1*.7, y = X2*.7, xend =0, yend = 0, linetype = variable), 
+               aes(x = X1, y = X2, xend =0, yend = 0, linetype = variable), 
                arrow = grid::arrow(ends = 'first', length = unit(.2, 'cm')), 
                linewidth = .7) +
   theme_bw() + theme(panel.grid.minor = element_blank(),
@@ -480,6 +480,8 @@ ggplot() +
   guides(label = guide_legend(order = 0),
          linetype = guide_legend(order = 1),
          color = guide_colorbar(order = 10))
+ggsave('E3SM_RESTOM_biplot.png', height = 4*.9, width = 6.8*.9)
+
 ggsave('E3SM_RESTOM_biplot.png', height = 4*.9, width = 6.8*.9)
 
 C_df <- data.frame(C_value = c(as.vector(pred_C_wycoff),
