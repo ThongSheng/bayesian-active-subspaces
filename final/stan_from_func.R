@@ -239,7 +239,7 @@ extract_vals <- extract(out_model, inc_warmup=F, permuted=F)
 summary_vals <- summary(out_model)
 
 # Save results
-output_dir <- '/scratch/negishi/angt/stan_results/'
+output_dir <- 'stan_results/'
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
