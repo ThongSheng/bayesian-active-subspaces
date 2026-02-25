@@ -10,7 +10,7 @@ grid <- expand.grid(
   'func' = c('determ_full', 'determ_2d', 'GP_full', 'GP_2d'),
   'prior_choice' = c("monte_carlo")
 )
-output_dir <- '/scratch/negishi/anyarger/grad/' # change this to match
+output_dir <- 'grad/' # change this to match
 files <- list.files(output_dir, pattern = "monte-carlo", full.names = TRUE)
 file_ids <- as.integer(gsub(".RData$", "", gsub(".*_", "", files)))
 
@@ -66,7 +66,7 @@ grid <- expand.grid(
                      "lognormal_inverse_wishart_grad", 
                      "gp_reduce_grad")
 )
-output_dir <- '/scratch/negishi/anyarger/grad' # change this to match
+output_dir <- 'grad' # change this to match
 files <- list.files(output_dir, pattern = "\\.RData$", full.names = TRUE)
 files_mc <- list.files(output_dir, pattern = "monte-carlo", full.names = TRUE)
 files <- files[!(files %in% files_mc)]
@@ -172,7 +172,7 @@ ggplot(data = results_df %>%
        color = 'Method') +
   theme_bw() + 
   theme(text = element_text(family = 'Arial'))
-ggsave("cosine_grad.png", width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/cosine_grad.png", width = 10, height = 5, units = "in", dpi = 300)
 
 
 # Plot 4: Posterior mean of predicted value RMSE from truth
