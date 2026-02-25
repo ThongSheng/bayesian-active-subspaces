@@ -546,21 +546,22 @@ df_random <- cbind(data.frame(pivot_longer(as.data.frame(vectors[random_indexes,
 ggplot() + 
   geom_point(data = data.frame(projected_points, RESTOM_vector), 
              aes(x = X1, y = X2, color = RESTOM_vector)) +
-  coord_equal() + 
-  geom_segment(data = df_random %>% filter(variable == 'micro_mg_vtrmi_factor'),
-               aes(x = value1 * .7, y = value2 *.7),
-               arrow = grid::arrow(ends = 'first', length = unit(.2, 'cm')),
-               xend = 0, yend = 0, size = .2,
-               alpha = .2) + 
+  coord_equal(xlim = c(-.9, NA)) + 
+  # geom_segment(data = df_random %>% filter(variable == 'micro_mg_vtrmi_factor'),
+  #              aes(x = value1 * .7, y = value2 *.7),
+  #              arrow = grid::arrow(ends = 'first', length = unit(.2, 'cm')),
+  #              xend = 0, yend = 0, size = .2,
+  #              alpha = .2) + 
   geom_label(data = data.frame(pm_vectors[top_act_scores,1:2]  %*% diag(sqrt(eigen(post_mean)$values[1:2]),ncol = 2), 
                                variable = factor(colnames(x_obs)[top_act_scores], 
                                                  levels = colnames(x_obs)[top_act_scores])), 
-             aes(x = X1*.7, y =ifelse(variable == 'clubb_C2rt', X2*.7 + .07, X2*.7), label = variable), nudge_x = .3, size = 2.5, alpha = .2,
+             aes(x = X1, y =ifelse(variable == 'clubb_C2rt', X2 + .07, X2), label = variable), 
+             nudge_x = -.17, size = 2.5, alpha = .2,nudge_y = .05,
              family = 'Arial') +
   geom_segment(data = data.frame(pm_vectors[top_act_scores,1:2]  %*% diag(sqrt(eigen(post_mean)$values[1:2]),ncol = 2), 
                                  variable = factor(colnames(x_obs)[top_act_scores], 
                                                    levels = colnames(x_obs)[top_act_scores])), 
-               aes(x = X1*.7, y = X2*.7, 
+               aes(x = X1, y = X2, 
                    xend =0, yend = 0, linetype = variable), 
                arrow = grid::arrow(ends = 'first', length = unit(.2, 'cm')), 
                linewidth = .7) +
