@@ -11,7 +11,7 @@ grid <- expand.grid(
   'prior_choice' = c('BASS', 'GP Conditional', 'GP MLE')
 )
 
-output_dir <- '/scratch/negishi/angt/nonstan_results/' # change this to match
+output_dir <- 'nonstan_results/' # change this to match
 files <- list.files(output_dir, pattern = "\\.RData$", full.names = TRUE)
 file_ids <- as.integer(gsub(".RData$", "", gsub(".*_", "", files)))
 
@@ -71,7 +71,7 @@ grid <- expand.grid(
   'prior_choice' = c("Dirichlet-Wishart", "GP Reduce", "Log-normal Inverse-Wishart")
 )
 
-output_dir <- '/scratch/negishi/angt/stan_results/' # change this to match
+output_dir <- 'stan_results/' # change this to match
 files <- list.files(output_dir, pattern = "\\.RData$", full.names = TRUE)
 file_ids <- as.integer(gsub(".RData$", "", gsub(".*_", "", files)))
 
@@ -150,7 +150,7 @@ method_colors <- c(
   theme_bw() +
   theme(text = element_text(family = 'Arial')) +
   scale_color_manual(values = method_colors))
-ggsave("Desktop/log_time.png", plot = log_time, width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/log_time.png", plot = log_time, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 2: Frobenius Norm between normalized C and C_est
 (frob <- ggplot(data = results_df) +
@@ -161,7 +161,7 @@ ggsave("Desktop/log_time.png", plot = log_time, width = 10, height = 5, units = 
   theme_bw() +
   theme(text = element_text(family = 'Arial')) +
   scale_color_manual(values = method_colors))
-ggsave("Desktop/frob.png", plot = frob, width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/frob.png", plot = frob, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 3: Cosine Similarity between first eigenvectors
 line_data <- data.frame(
@@ -178,7 +178,7 @@ line_data <- data.frame(
   theme_bw() +
   theme(text = element_text(family = 'Arial')) +
   scale_color_manual(values = method_colors))
-ggsave("Desktop/cosine.png", plot = cosine, width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/cosine.png", plot = cosine, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 4: Differences in first eigenvalue
 (first_eigen <- ggplot(data = results_df) +
@@ -189,7 +189,7 @@ ggsave("Desktop/cosine.png", plot = cosine, width = 10, height = 5, units = "in"
   theme_bw() +
   theme(text = element_text(family = 'Arial')) +
   scale_color_manual(values = method_colors))
-ggsave("Desktop/first_eigen.png", plot = first_eigen, width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/first_eigen.png", plot = first_eigen, width = 10, height = 5, units = "in", dpi = 300)
 
 # Plot 5: Effective sample size
 (ess <- ggplot(data = results_df) +
@@ -201,5 +201,5 @@ ggsave("Desktop/first_eigen.png", plot = first_eigen, width = 10, height = 5, un
   theme_bw() +
   theme(text = element_text(family = 'Arial')) +
   scale_color_manual(values = method_colors))
-ggsave("Desktop/ess.png", plot = ess, width = 10, height = 5, units = "in", dpi = 300)
+ggsave("images/ess.png", plot = ess, width = 10, height = 5, units = "in", dpi = 300)
 
